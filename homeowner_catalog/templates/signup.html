@@ -4,10 +4,28 @@
 {% block title %}Sign Up{% endblock %}
 
 {% block content %}
-  <h2>Sign up</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Sign up</button>
-  </form>
+
+    <div class="ribbon ribbon-blue">
+
+    </div>
+    {% if errors %}
+        <div class="error">
+            <h2>errors</h2>
+        </div>
+    {% endif %}
+    <div class="ribbon-container">
+        <div class="container main-content ribbon-content mdl-color--white mdl-shadow--4dp">
+            <div class="row">
+                <section class="device-data col-lg-12">
+                    <h2>Sign up</h2>
+                    <form method="post">
+                        {% csrf_token %}
+{#                        {{ SignUpForm.as_p }}#}
+                        {{ form.as_p }}
+                        <button type="submit">Sign up</button>
+                    </form>
+                </section>
+            </div>
+        </div>
+    </div>
 {% endblock %}

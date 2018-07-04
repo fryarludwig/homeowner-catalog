@@ -52,6 +52,8 @@ class Base(Configuration):
         'django.contrib.sessions',
         'django.contrib.messages',
         'django.contrib.staticfiles',
+        # 'django.contrib.staticfiles.finders.FileSystemFinder',
+        # 'django.contrib.staticfiles.finders.AppDirectoriesFinder',
         'homeowner_catalog.apps.RentplusApiConfig',
         'material',
         'material.frontend',
@@ -87,6 +89,10 @@ class Base(Configuration):
 
     # WSGI_APPLICATION = 'wsgi.application'
     WSGI_APPLICATION = 'homeowner_catalog.wsgi.application'
+
+    # URL prefix for static files.
+    # Example: "http://example.com/static/", "http://static.example.com/"
+    STATIC_URL = '/static/'
 
     # Database
     # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
@@ -143,12 +149,17 @@ class Base(Configuration):
     USE_TZ = True
     # AUTH_USER_MODEL = 'accounts.User'
 
-    # Static files (CSS, JavaScript, Images)
-    # https://docs.djangoproject.com/en/2.0/howto/static-files/
-    STATIC_URL = '/static/'
-
     # All settings common to all environments
     PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+
+    STATIC_URL = '/static/'
+
+    # Static files (CSS, JavaScript, Images)
+    # https://docs.djangoproject.com/en/2.0/howto/static-files/
+    STATIC_ROOT = '{}/static/'.format(PROJECT_ROOT)
+    # STATICFILES_DIRS = [
+    #     ("static", '{}/static/homeowner_catalog/'.format(PROJECT_ROOT)),
+    # ]
 
 
 class Local(Base):
