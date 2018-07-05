@@ -1,0 +1,25 @@
+
+<nav class="navbar-dark" role="navigation">
+    <div class="nav-wrapper container">
+        <a id="logo-container" href="{% url 'home' %}" class="brand-logo">Homeowner Catalog</a>
+        {% if not user.is_authenticated %}
+            <ul class="right hide-on-med-and-down offset-m4">
+                <li><a href="{% url 'login' %}">Login</a></li>
+            </ul>
+
+            <ul id="nav-mobile" class="sidenav">
+                <li><a href="{% url 'signup' %}">Sign Up</a></li>
+            </ul>
+        {% else %}
+            <ul class="right offset-xl1 hide-on-med-and-down">
+                <li><a href="{% url 'logout_user' %}">Logout</a></li>
+            </ul>
+
+            <ul id="nav-mobile" class="sidenav">
+                <li><a href="{% url 'password_reset' %}">My Account</a></li>
+            </ul>
+
+        {% endif %}
+        <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+    </div>
+</nav>

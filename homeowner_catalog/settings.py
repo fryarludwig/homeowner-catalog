@@ -52,11 +52,9 @@ class Base(Configuration):
         'django.contrib.sessions',
         'django.contrib.messages',
         'django.contrib.staticfiles',
-        # 'django.contrib.staticfiles.finders.FileSystemFinder',
-        # 'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-        'homeowner_catalog.apps.RentplusApiConfig',
         'material',
         'material.frontend',
+        'homeowner_catalog.apps.RentplusApiConfig',
     ]
 
     MIDDLEWARE = [
@@ -147,12 +145,13 @@ class Base(Configuration):
     USE_I18N = True
     USE_L10N = True
     USE_TZ = True
-    # AUTH_USER_MODEL = 'accounts.User'
+    # AUTH_USER_MODEL = 'accounts.Account'
 
     # All settings common to all environments
     PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
     STATIC_URL = '/static/'
+    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
     # Static files (CSS, JavaScript, Images)
     # https://docs.djangoproject.com/en/2.0/howto/static-files/

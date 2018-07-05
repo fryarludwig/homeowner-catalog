@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block content %}
+    <div id="index-banner" class="parallax-container">
+        <div class="section no-pad-bot">
+            <div class="container">
+                <br><br>
+                <h1 class="header center teal-text text-lighten-2">Homeowner Catalog</h1>
+                <div class="row center">
+                    <h5 class="header col s12 light">A tool to help itemize your inventory</h5>
+                </div>
+                <div class="row center">
+                    <div class="col s12">
+                    {% if not user.is_authenticated %}
+                        <a href="{% url 'login' %}" id="login-button"
+                           class="btn-large waves-effect waves-light teal lighten-1 offset-m8">Login</a>
+                        <a href="{% url 'signup' %}" id="signup-button"
+                           class="btn-large waves-effect waves-light teal lighten-1 offset-m8">Sign Up</a>
+                    {% elif home %}
+                        <a href="{% url 'homes' %}" id="home-button"
+                           class="btn-large waves-effect waves-light teal lighten-1">{{ home }}</a>
+                    {% else %}
+                        <a href="{% url 'homes' %}" id="create-home-button"
+                           class="btn-large waves-effect waves-light teal lighten-1 ">Start a home</a>
+
+                    {% endif %}
+                    </div>
+                </div>
+                <br><br>
+
+            </div>
+        </div>
+        <div class="parallax"><img src="{% static 'images/background1.jpg' %}" alt="Unsplashed background img 1"></div>
+    </div>
+{% endblock %}

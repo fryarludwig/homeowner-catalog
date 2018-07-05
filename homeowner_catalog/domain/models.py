@@ -7,10 +7,10 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import PermissionsMixin
 
-from django.core.exceptions import ObjectDoesNotExist, ValidationError as DjangoValidationError
+# from django.core.exceptions import ObjectDoesNotExist, ValidationError as DjangoValidationError
 # from django.db.models.fields import BinaryField, DateTimeField as DjangoDateTimeField, DecimalField
 # from django.db.models.fields.related import ForeignKey as DjangoForeignKey, OneToOneField
-from django.conf import settings
+# from django.conf import settings
 
 
 class OAuthToken(models.Model):
@@ -50,12 +50,15 @@ class OAuthToken(models.Model):
 
 class Home(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.TextField(blank=True, null=True)
+    name = models.TextField()
     description = models.TextField(blank=True, null=True)
     address_line_1 = models.TextField(blank=True, null=True)
     address_line_2 = models.TextField(blank=True, null=True)
     state = models.TextField(blank=True, null=True)
     zip = models.TextField(blank=True, null=True)
+    owner = models.ForeignKey('Account', related_name='home_owner', on_delete=models.CASCADE)
+    agents = ArrayField(models.IntegerField(blank=True, null=True), default=[])
+    assistants = ArrayField(models.IntegerField(blank=True, null=True), default=[])
 
     class Meta:
         db_table = 'home'
@@ -79,8 +82,8 @@ class Location(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.TextField()
     category = models.IntegerField(choices=Category, default=UNKNOWN)
-    photos = models.ManyToManyField('Photo', related_name='photo_location')
-    items = models.ManyToManyField('Item', related_name='item_location')
+    photos = models.ManyToManyField('Photo', related_name='photo_location', symmetrical=True)
+    items = models.ManyToManyField('Item', related_name='item_location', symmetrical=True)
 
     class Meta:
         db_table = 'location'
@@ -89,6 +92,7 @@ class Location(models.Model):
 class Photo(models.Model):
     id = models.AutoField(primary_key=True)
     description = models.TextField()
+    home = models.ForeignKey(Home, related_name='home_photos', on_delete=models.CASCADE)
     location = models.ManyToManyField('Location', symmetrical=True)
     items = models.ManyToManyField('Item', symmetrical=True)
 
@@ -128,8 +132,8 @@ class Note(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.TextField()
     description = models.TextField(blank=True, null=True)
-    location = models.ManyToManyField('Location', symmetrical=True)
-    items = models.ManyToManyField('Item', symmetrical=True)
+    location = models.ManyToManyField('Location', related_name='location_note', symmetrical=True)
+    items = models.ManyToManyField('Item', related_name='item_note', symmetrical=True)
 
     class Meta:
         db_table = 'note'
@@ -141,15 +145,15 @@ class Document(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.TextField()
     description = models.TextField(blank=True, null=True)
-    items = models.ManyToManyField('Item', blank=True, null=True)
-    user = models.ForeignKey('User', on_delete=models.CASCADE)
-    home = models.ForeignKey('Home', on_delete=models.CASCADE)
+    items = models.ManyToManyField('Item', blank=True)
+    user = models.ForeignKey('Account', related_name='user_documents', on_delete=models.CASCADE)
+    home = models.ForeignKey('Home', related_name='home_documents', on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'document'
 
 
-class User(AbstractBaseUser):
+class Account(AbstractBaseUser):
     id = models.AutoField(primary_key=True)
     email = models.EmailField(unique=True)
     username = models.CharField(max_length=25, unique=True)
@@ -159,7 +163,8 @@ class User(AbstractBaseUser):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
-
+    class Meta:
+        db_table = 'account'
 #
 # # HSUAccount - holds information for user's Hydroshare account
 # class UserAccount(models.Model):

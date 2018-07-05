@@ -5,12 +5,18 @@
 
 {% block content %}
 
+{#    <form method="POST" class="viewform">{% csrf_token %}#}
+{#        {{ form.as_p }}#}
+{##}
+{#        <button type="submit" name="_submit" class="btn btn-primary btn-lg">Submit</button>#}
+{#    </form>#}
+
     <div class="ribbon ribbon-blue">
 
     </div>
-    {% if errors %}
+    {% if error %}
         <div class="error">
-            <h2>errors</h2>
+            <h2 class="error">{{ error }}</h2>
         </div>
     {% endif %}
     <div class="ribbon-container">
@@ -20,7 +26,6 @@
                     <h2>Sign up</h2>
                     <form method="post">
                         {% csrf_token %}
-{#                        {{ SignUpForm.as_p }}#}
                         {{ form.as_p }}
                         <button type="submit">Sign up</button>
                     </form>

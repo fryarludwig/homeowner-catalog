@@ -9,4 +9,4 @@ from django.views import View
 class LogoutHelper(View):
     def get(self, request, *args, **kwargs):
         result = logout(request)
-        return render(request, 'home.html', {'result': result})
+        return render(request, 'index.html', {'result': result})

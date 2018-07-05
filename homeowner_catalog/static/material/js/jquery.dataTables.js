@@ -1998,7 +1998,7 @@
 			}
 		}
 	
-		/* User specified column options */
+		/* Account specified column options */
 		if ( oOptions !== undefined && oOptions !== null )
 		{
 			// Backwards compatibility

@@ -4,13 +4,13 @@ from django.contrib.auth.views import login
 from django.http import HttpResponse
 from django.shortcuts import render
 # from material.frontend import forms
-from django import forms
+# from django import forms
 
 # def login(request):
 #     return render(request, 'login.html')
 from django.views import View
 
-from sign_up.forms import SignUpForm
+from homeowner_catalog.sign_up.forms import SignUpForm
 
 
 class SignUpHelper(View):
@@ -19,7 +19,7 @@ class SignUpHelper(View):
         if not request.user.is_authenticated:
             return render(request, 'signup.html', {'form': SignUpForm()})
         else:
-            return render(request, 'home.html', {'user': request.user})
+            return render(request, 'index.html', {'user': request.user})
 
     def post(self, request, *args, **kwargs):
         print('Pretend we signed you up')
@@ -31,7 +31,7 @@ class SignUpHelper(View):
                                     password=form.cleaned_data['password1'],
                                     )
             login(request, new_user)
-            return render(request, 'home.html', {'user': request.user})
+            return render(request, 'index.html', {'user': new_user})
         else:
             return render(request, 'signup.html', {'form': SignUpForm(),
                                                    'error': 'Failed'})

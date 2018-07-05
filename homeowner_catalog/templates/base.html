@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +12,6 @@
     {% block page_title %}
         <title>Cataloging tools for homeowners </title>
     {% endblock %}
-    {% load static %}
     {#    <link rel="icon"#}
     {#          type="image/png"#}
     {#          href="{% static 'images/cropped-favicon-32x32.png' %}">#}
@@ -32,6 +32,16 @@
 
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
         <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
+
+
     {% endblock %}
 
     {% block forced_scripts %}
@@ -40,85 +50,125 @@
 </head>
 
 <body>
-<div id="wrapper">
-    <header>
-        <nav class="navbar navbar-dark navbar-expand-lg fixed-top">
-            <a class="navbar-brand" href="{% url 'home' %}"> Welcome!
-                {#                <img src="{% static 'dataloaderinterface/images/WikiWatershed_logo.png' %}" alt="WebSDL"#}
-                {#                     width="264" height="55">#}
-            </a>
+{% include 'navbar.html' %}
+{% block content %}
+{% endblock %}
+</body>
 
-            <button type="button" class="navbar-toggler" data-toggle="collapse"
-                    data-target="#navbarNavDropdown"
-                    aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle Navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                <ul class="navbar-nav mr-auto">
-                    {% if user.is_authenticated %}
-                        <li class="nav-item menu-sites-list">
-                            <a class="nav-link" href="{% url 'signup' %}">My Homes</a>
-                        </li>
-                    {% endif %}
-                </ul>
-
-                <ul class="navbar-nav">
-                    {% if user.is_authenticated %}
-                        {% if user.is_staff %}
-                            <li class="nav-item"><a class="nav-link" href="{% url 'admin:index' %}">Admin</a></li>
-                        {% endif %}
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-user" aria-hidden="true"></i> Logged in as {{ user }}
-                            </a>
-                            <div class="dropdown-menu navbar-dark" aria-labelledby="navbarDropdown">
-                                <a class="nav-link" href="{% url 'account' %}">
-                                    <i class="fa fa-user" aria-hidden="true"></i> My Account</a>
-                                <a class="nav-link" href="{% url 'logout' %}">
-                                    <i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a>
-                            </div>
-                        </li>
-                    {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'login' %}">
-                                <i class="fa fa-sign-in" aria-hidden="true"></i> Log In</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'signup' %}">
-                                <i class="fa fa-sign-up" aria-hidden="true"></i> Sign Up</a>
-                        </li>
-                    {% endif %}
-                </ul>
-            </div><!-- /.navbar-collapse -->
-        </nav>
-    </header>
-
-    <div id="banner">
-        <div class="parallax-window" data-parallax="scroll">
-            <div class="legend-container" {% if user.is_authenticated %}style="height: 400px;"{% endif %}>
-                <div class="banner-legend text-center">
-                    I'm watching.
-                    {#                {% if not user.is_authenticated %}#}
-                    {#                    <h2 class="text-center">Welcome Portal</h2>#}
-                    {#                    <h4 class="text-center">Ready to sign up?</h4>#}
-                    {#                    <h4 class="text-center">#}
-                    {#                        <a class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-js-ripple-effect"#}
-                    {#                           href="{% url 'signup' %}">SIGN UP</a>#}
-                    {#                    </h4>#}
-                    {#                {% endif %}#}
-                </div>
-            </div>
-        </div>
-    </div>
-    {% block content %}{% endblock %}
-    <div id="clipboard-snackbar" class="mdl-js-snackbar mdl-snackbar">
-        <div class="mdl-snackbar__text"></div>
-        <button class="mdl-snackbar__action hidden" type="button"></button>
-    </div>
-</div>
+{#<div id="index-banner" class="parallax-container">#}
+{#    <div class="section no-pad-bot">#}
+{#        <div class="container">#}
+{#            <br><br>#}
+{#            <h1 class="header center teal-text text-lighten-2">Homeowner Catalog</h1>#}
+{#            <div class="row center">#}
+{#                <h5 class="header col s12 light">A tool to help itemize your inventory</h5>#}
+{#            </div>#}
+{#            <div class="row center">#}
+{#                {% if not user.is_authenticated %}#}
+{#                    <a href="{% url 'login' %}" id="login-button"#}
+{#                       class="btn-large waves-effect waves-light teal lighten-1 offset-m4">Login</a>#}
+{#                    <div class="offset-m4">#}
+{#                        <br>#}
+{#                    </div>#}
+{#                    <a href="{% url 'signup' %}" id="signup-button"#}
+{#                       class="btn-large waves-effect waves-light teal lighten-1 offset-m4">Sign Up</a>#}
+{#                {% elif home %}#}
+{##}
+{#                    <a href="{% url 'signup' %}" id="signup-button"#}
+{#                       class="btn-large waves-effect waves-light teal lighten-1">{{ home }}</a>#}
+{#                {% else %}#}
+{##}
+{#                    <a href="{% url 'signup' %}" id="signup-button"#}
+{#                       class="btn-large waves-effect waves-light teal lighten-1 ">Start a home</a>#}
+{##}
+{#                {% endif %}#}
+{#            </div>#}
+{#            <br><br>#}
+{##}
+{#        </div>#}
+{#    </div>#}
+{#    <div class="parallax"><img src="{% static 'images/background1.jpg' %}" alt="Unsplashed background img 1"></div>#}
+{#</div>#}
+{##}
+{#<div id="wrapper">#}
+{#    <header>#}
+{#        <nav class="navbar navbar-dark navbar-expand-lg fixed-top">#}
+{#            <a class="navbar-brand" href="{% url 'home' %}"> Welcome!#}
+{#                <img src="{% static 'dataloaderinterface/images/WikiWatershed_logo.png' %}" alt="WebSDL"#}
+{#                     width="264" height="55">#}
+{#            </a>#}
+{##}
+{#            <button type="button" class="navbar-toggler" data-toggle="collapse"#}
+{#                    data-target="#navbarNavDropdown"#}
+{#                    aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle Navigation">#}
+{#                <span class="navbar-toggler-icon"></span>#}
+{#            </button>#}
+{##}
+{#            <!-- Collect the nav links, forms, and other content for toggling -->#}
+{#            <div class="collapse navbar-collapse" id="navbarNavDropdown">#}
+{#                <ul class="navbar-nav mr-auto">#}
+{#                    {% if user.is_authenticated %}#}
+{#                        <li class="nav-item menu-sites-list">#}
+{#                            <a class="nav-link" href="{% url 'signup' %}">My Homes</a>#}
+{#                        </li>#}
+{#                    {% endif %}#}
+{#                </ul>#}
+{##}
+{#                <ul class="navbar-nav">#}
+{#                    {% if user.is_authenticated %}#}
+{#                        {% if user.is_staff %}#}
+{#                            <li class="nav-item"><a class="nav-link" href="{% url 'admin:index' %}">Admin</a></li>#}
+{#                        {% endif %}#}
+{#                        <li class="nav-item dropdown">#}
+{#                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"#}
+{#                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
+{#                                <i class="fa fa-user" aria-hidden="true"></i> Logged in as {{ user }}#}
+{#                            </a>#}
+{#                            <div class="dropdown-menu navbar-dark" aria-labelledby="navbarDropdown">#}
+{#                                <a class="nav-link" href="{% url 'account' %}">#}
+{#                                    <i class="fa fa-user" aria-hidden="true"></i> My Account</a>#}
+{#                                <a class="nav-link" href="{% url 'logout' %}">#}
+{#                                    <i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a>#}
+{#                            </div>#}
+{#                        </li>#}
+{#                    {% else %}#}
+{#                        <li class="nav-item">#}
+{#                            <a class="nav-link" href="{% url 'login' %}">#}
+{#                                <i class="fa fa-sign-in" aria-hidden="true"></i> Log In</a>#}
+{#                        </li>#}
+{#                        <li class="nav-item">#}
+{#                            <a class="nav-link" href="{% url 'signup' %}">#}
+{#                                <i class="fa fa-sign-up" aria-hidden="true"></i> Sign Up</a>#}
+{#                        </li>#}
+{#                    {% endif %}#}
+{#                </ul>#}
+{#            </div><!-- /.navbar-collapse -->#}
+{#        </nav>#}
+{#    </header>#}
+{##}
+{#    <div id="banner">#}
+{#        <div class="parallax-window" data-parallax="scroll">#}
+{#            <div class="legend-container" {% if user.is_authenticated %}style="height: 400px;"{% endif %}>#}
+{#                <div class="banner-legend text-center">#}
+{#                    I'm watching.#}
+{#                {% if not user.is_authenticated %}#}
+{#                    <h2 class="text-center">Welcome Portal</h2>#}
+{#                    <h4 class="text-center">Ready to sign up?</h4>#}
+{#                    <h4 class="text-center">#}
+{#                        <a class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-js-ripple-effect"#}
+{#                           href="{% url 'signup' %}">SIGN UP</a>#}
+{#                    </h4>#}
+{#                {% endif %}#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{#    {% block content %}{% endblock %}#}
+{#    <div id="clipboard-snackbar" class="mdl-js-snackbar mdl-snackbar">#}
+{#        <div class="mdl-snackbar__text"></div>#}
+{#        <button class="mdl-snackbar__action hidden" type="button"></button>#}
+{#    </div>#}
+{#</div>#}
 
 {#{% block footer %}#}
 {#    <footer>#}
@@ -149,5 +199,4 @@
             crossorigin="anonymous"></script>
 
 {% endblock %}
-</body>
 </html>

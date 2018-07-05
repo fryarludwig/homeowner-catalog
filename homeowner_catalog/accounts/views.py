@@ -4,7 +4,6 @@ from django.views import generic
 
 # from viewflow import frontend
 
-@frontend.register
 class SignUp(generic.CreateView):
     form_class = UserCreationForm
     success_url = reverse_lazy('login')
